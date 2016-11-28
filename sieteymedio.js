@@ -41,9 +41,17 @@ function limpia_vector() { // bektore garbiketa
 	}
 }
 
+function repartir(player) {
+	
+	no_repetida();
+	if(player == "jugador")
+		document.getElementById("cartasJugador").innerHTML += '<img class="cartas" src="/'+paloFinal+'/'+cartaFinal+'.jpg">';
+	else				// Si reparte la carta a la banca, se muestra en su casilla el nombre de la carta y su palo
+		document.getElementById("cartasBanca").innerHTML += '<img class="cartas" src="/'+paloFinal+'/'+cartaFinal+'.jpg">';
+	return valor_carta(carta);
+}
 
-
-function repartir() {
+function no_repetida() {
 	
 	var sw = 1;
 	do {
@@ -75,7 +83,7 @@ function repartir() {
 			}
 		}
 	} while (sw == 1) // Sale del bucle cuando la carta no se ha repartido ya anteriormente en la misma mano
-	
+
 	cartaFinal = carta; // Gerorako karta
 	paloFinal = palo;
 	
@@ -99,15 +107,6 @@ function valor_carta(carta) {
 	return carta;
 }
 
-function nombre_carta(carta) {
-	if (carta == 1) return "As";
-	if (carta == 8) return "Sota";
-	if (carta == 9) return "Caballo";
-	if (carta == 10) return "Rey";
-	return carta;
-}
-
-
 function kartaBanka() {
 	if (juego_finalizado == 0) // Si la mano ha finalizado y se pulsa "Plantarse"		
 		return;
@@ -116,7 +115,6 @@ function kartaBanka() {
 	
 	while (document.getElementById('puntosBanca').value < document.getElementById('puntosJugador').value && document.getElementById('puntosBanca').value < 7.5) { // Saca cartas mientras que tiene un valor inferior al del jugador y hasta 7.5
 		document.getElementById('puntosBanca').value = parseFloat(document.getElementById('puntosBanca').value) + repartir();
-		document.getElementById("cartasBanca").innerHTML += '<img class="cartas" src="/'+paloFinal+'/'+cartaFinal+'.jpg>';
 	}
 	
 }
@@ -131,8 +129,7 @@ function kartaBat() { //Beste karta bat
 		return;
 	}
 	else // Si no había finalizado la mano
-		document.getElementById('puntosJugador').value = parseFloat(document.getElementById('puntosJugador').value) + repartir();
-		document.getElementById("cartasJugador").innerHTML += '<img class="cartas" src="/'+paloFinal+'/'+cartaFinal+'.jpg>';
+		document.getElementById('puntosJugador').value = parseFloat(document.getElementById('puntosJugador').value) + repartir("jugador");
 	if (document.getElementById('puntosJugador').value > 7.5) // Si se pasa de 7.5
 	{
 		alert("Te has pasado, gana la banca!");
